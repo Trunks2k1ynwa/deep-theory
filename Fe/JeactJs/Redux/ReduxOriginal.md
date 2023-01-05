@@ -1,0 +1,72 @@
+## Thực mục redux chứa các file để lưu trữ dữ liệu dùng để truyền giữa các component
+
+```javascript : configureStore.js
+import {createStore,combineReducers}  from 'redux'
+import counterReducer from './counter.js'
+const reducer = combineReducers({
+    // key : value
+    counter:counterReducer, 
+});
+const store = createStore(reducer)
+export default store;
+```
+=====================
+```javascript : Index.js
+<Provider store={store}>
+    <App />
+</Provider>
+```
+=====================
+```javascript : App.js
+  const count = useSelector(state=>state.counter.count);
+```
+=====================
+```javascript : counter.js
+const INCREMENT = 'increment';
+const INCREMENT_10 = 'increment_10';
+const DECREMENT = 'decrement';
+const initialState = {
+    count:10
+}
+export const increment = ()=>({
+    type: INCREMENT,
+})
+export const increment_10 = (value)=>({
+    type: INCREMENT_10,
+    payload:value,
+})
+export const decrement = ()=>({
+    type: DECREMENT,
+})
+
+function counterReducer (state = initialState,action) {
+    switch (action.type) {
+        case INCREMENT:
+            return {
+                ...state,
+                count:state.count+1,
+            }
+        case INCREMENT_10:
+            return {
+                ...state,
+                count:state.count+action.payload,
+            }
+        case DECREMENT:
+            return {
+                ...state,
+                count:state.count-1,
+            }
+        default:
+            return state;
+    }
+}
+export default counterReducer;
+```
+```javascript : Counter.js
+const dispatch = useDispatch();
+//onclick = handle=>dispatch(action)
+ const handleIncrement = () => {
+    // = counterReducer(increment())
+    dispatch(increment());
+  };
+```

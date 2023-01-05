@@ -1,0 +1,1 @@
+## Props Drilling : truyền props từ ông=>bố=>cha=>cháu
